@@ -33,6 +33,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
         in.useDelimiter("\\s*"); // treat whitespace as a word separator
         Calculator calculator = new Calculator();
+        History history = new History();
 
         boolean doContinue = true;
         while (doContinue && in.hasNext()) {
@@ -58,7 +59,8 @@ public class Main {
                             break;
                         case '*':
                             System.out.println("Multiply");
-                            calculator.times();
+                            history.done_cmds.add(new TimesCommand(calculator));
+                            history.done_cmds.peek().execute();
                             show(calculator);
                             break;
                         case ',':
