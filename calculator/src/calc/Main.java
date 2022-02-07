@@ -1,7 +1,5 @@
 package calc;
 
-import com.sun.org.apache.xpath.internal.operations.Plus;
-
 import java.util.Scanner;
 
 /**
@@ -85,15 +83,17 @@ public class Main {
                             show(calculator);
                             break;
                         case 'u':
+                            System.out.println("Undo");
                             if(history.nextToUndo() != null) {
-                                System.out.println("Undo");
                                 history.undo();
+                                show(calculator);
                             }
                             break;
                         case 'd':
+                            System.out.println("Redo");
                             if(history.nextToRedo() != null) {
-                                System.out.println("Redo");
                                 history.redo();
+                                show(calculator);
                             }
                             break;
 
