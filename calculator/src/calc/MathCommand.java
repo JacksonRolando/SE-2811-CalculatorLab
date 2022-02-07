@@ -17,4 +17,10 @@ public abstract class MathCommand extends CalculatorCommand {
         calculator.setDisplay(displayAtExec);
         calculator.setAccumulator(accumulatorAtExec);
     }
+
+    @Override
+    public void unexecute() {
+        loadState();
+        calculator.setReadyForNewNumber(true);
+    }
 }

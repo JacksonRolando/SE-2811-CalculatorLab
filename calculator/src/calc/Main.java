@@ -1,5 +1,7 @@
 package calc;
 
+import com.sun.org.apache.xpath.internal.operations.Plus;
+
 import java.util.Scanner;
 
 /**
@@ -39,8 +41,9 @@ public class Main {
         while (doContinue && in.hasNext()) {
             String text = in.next();
             for (char c : text.toCharArray()) {
-                if (Character.isDigit(c))
-                    calculator.appendDigit(c);
+                if (Character.isDigit(c)) {
+                    history.doCommand(new AppendDigitCommand(calculator, c));
+                }
                 else {
                     switch (Character.toLowerCase(c)) {
                         case 'q':
@@ -49,39 +52,51 @@ public class Main {
                             break;
                         case '+':
                             System.out.println("Add");
-                            calculator.plus();
+                            history.doCommand(new PlusCommand(calculator));
                             show(calculator);
                             break;
                         case '-':
                             System.out.println("Subtract");
-                            calculator.minus();
+                            history.doCommand(new MinusCommand(calculator));
                             show(calculator);
                             break;
                         case '*':
                             System.out.println("Multiply");
-                            history.done_cmds.add(new TimesCommand(calculator));
-                            history.done_cmds.peek().execute();
+                            history.doCommand(new TimesCommand(calculator));
                             show(calculator);
                             break;
                         case ',':
-                            calculator.enter();
+                            history.doCommand(new EnterCommand(calculator));
                             show(calculator);
                             break;
                         case 's':
                             System.out.println("Save");
-                            calculator.saveToMemory();
+                            history.doCommand(new SaveCommand(calculator));
                             show(calculator);
                             break;
                         case 'r':
                             System.out.println("Recall");
-                            calculator.recallFromMemory();
+                            history.doCommand(new RecallCommand(calculator));
                             show(calculator);
                             break;
                         case 'c':
                             System.out.println("Clear");
-                            calculator.clear();
+                            history.doCommand(new ClearCommand(calculator));
                             show(calculator);
                             break;
+                        case 'u':
+                            if(history.nextToUndo() != null) {
+                                System.out.println("Undo");
+                                history.undo();
+                            }
+                            break;
+                        case 'd':
+                            if(history.nextToRedo() != null) {
+                                System.out.println("Redo");
+                                history.redo();
+                            }
+                            break;
+
                         default:
                             if (!Character.isISOControl(c))
                                 System.out.println("Unrecognized command `" + c + "'");

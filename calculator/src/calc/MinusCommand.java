@@ -1,13 +1,12 @@
 package calc;
 
-public class MinusCommand extends CalculatorCommand {
+public class MinusCommand extends MathCommand {
     public MinusCommand(Calculator c) {
         super(c);
     }
 
     public void execute() {
-    }
-
-    public void unexecute() {
+        saveState();
+        calculator.minus();
     }
 }

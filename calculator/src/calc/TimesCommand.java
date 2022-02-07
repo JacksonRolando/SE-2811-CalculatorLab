@@ -9,8 +9,4 @@ public class TimesCommand extends MathCommand {
         saveState();
         calculator.times();
     }
-
-    public void unexecute() {
-        loadState();
-    }
 }
